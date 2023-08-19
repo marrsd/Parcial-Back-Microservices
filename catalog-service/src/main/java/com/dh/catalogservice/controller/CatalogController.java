@@ -21,7 +21,10 @@ public class CatalogController {
 
   @GetMapping("catalog/{genre}")
   public ResponseEntity<List<Movie>> getCatalogByGenre(@PathVariable String genre) {
-    return iMovieClient.getMovieByGenre(genre);
+    ResponseEntity<List<Movie>> response = iMovieClient.getMovieByGenre(genre);
+    
+    System.out.println("Instancia con id: " + response.getHeaders().get("idrandom"));
+    return response;
   }
 
   @PostMapping("catalog/saveMovie")
