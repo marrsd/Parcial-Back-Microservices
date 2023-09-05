@@ -11,13 +11,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dh.catalogservice.cliente.IMovieClient;
+import com.dh.catalogservice.cliente.ISerieClient;
 import com.dh.catalogservice.model.Movie;
+import com.dh.catalogservice.model.Serie;
 
 @RestController
 public class CatalogController {
 
   @Autowired
   private IMovieClient iMovieClient;
+  
+  @Autowired
+  private ISerieClient iSerieClient;
 
   @GetMapping("catalog/{genre}")
   public ResponseEntity<List<Movie>> getCatalogByGenre(@PathVariable String genre) {
@@ -30,5 +35,10 @@ public class CatalogController {
   @PostMapping("catalog/saveMovie")
   public ResponseEntity<Movie> saveMovie(@RequestBody Movie movie) {
     return iMovieClient.saveMovie(movie);
+  }
+  
+  @PostMapping("catalog/saveSerie")
+  public ResponseEntity<Serie> saveSerie(@RequestBody Serie serie) {
+    return iSerieClient.saveSerie(serie);
   }
 }
