@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.dh.catalogservice.FeignConfiguration;
-import com.dh.catalogservice.model.Movie;
+import com.dh.catalogservice.feign.model.Movie;
 
 @FeignClient(name = "movie-service")
 @LoadBalancerClient(name = "movie-service", configuration = FeignConfiguration.class)

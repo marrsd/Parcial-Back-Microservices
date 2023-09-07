@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dh.catalogservice.cliente.IMovieClient;
 import com.dh.catalogservice.cliente.ISerieClient;
-import com.dh.catalogservice.model.Movie;
-import com.dh.catalogservice.model.Serie;
+import com.dh.catalogservice.feign.model.Movie;
+import com.dh.catalogservice.feign.model.Serie;
 
 @RestController
 @RequestMapping("/catalog")

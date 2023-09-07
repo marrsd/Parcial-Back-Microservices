@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.dh.catalogservice.FeignConfiguration;
-import com.dh.catalogservice.model.Serie;
+import com.dh.catalogservice.feign.model.Serie;
 
 @FeignClient(name = "serie-service")
 @LoadBalancerClient(name = "serie-service", configuration = FeignConfiguration.class)

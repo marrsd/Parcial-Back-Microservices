@@ -1,7 +1,21 @@
 package com.dh.catalogservice.model;
 
-import java.util.List;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
-public record Serie(String id, String name, String genre, List<Season> seasons) {
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+
+@Data
+@Document
+@RequiredArgsConstructor
+public class Serie {
+	
+	@MongoId
+	private Long id;
+	
+	private String name;
+	
+	private String genre;
 
 }

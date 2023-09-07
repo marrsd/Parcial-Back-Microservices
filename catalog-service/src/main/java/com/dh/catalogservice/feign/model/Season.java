@@ -1,4 +1,4 @@
-package com.dh.catalogservice.model;
+package com.dh.catalogservice.feign.model;
 
 import java.util.List;
 
