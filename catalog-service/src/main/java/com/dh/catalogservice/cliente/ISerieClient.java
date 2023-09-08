@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.dh.catalogservice.FeignConfiguration;
-import com.dh.catalogservice.feign.model.Serie;
+import com.dh.catalogservice.model.Serie;
 
 @FeignClient(name = "serie-service")
 @LoadBalancerClient(name = "serie-service", configuration = FeignConfiguration.class)
 public interface ISerieClient {
-	
-	  @GetMapping("/api/v1/series/{genre}")
-	  ResponseEntity<List<Serie>> getSerieByGenre(@PathVariable String genre);
-	
-	  @PostMapping("/api/v1/series/save")
-	  ResponseEntity<Serie> saveSerie(@RequestBody Serie serie);
+
+	@GetMapping("/api/v1/series/{genre}")
+	ResponseEntity<List<Serie>> getSerieByGenre(@PathVariable String genre);
+
+	@PostMapping("/api/v1/series/save")
+	ResponseEntity<Serie> saveSerie(@RequestBody Serie serie);
 }
