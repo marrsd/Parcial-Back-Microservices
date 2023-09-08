@@ -1,6 +1,7 @@
 package com.dh.movieservice.controller;
 
 import com.dh.movieservice.model.Movie;
+import com.dh.movieservice.queue.MovieListener;
 import com.dh.movieservice.service.MovieService;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -21,14 +22,17 @@ import javax.servlet.http.HttpServletResponse;
 public class MovieController {
 
     private final MovieService movieService;
+    
+    private final MovieListener listener;
 
     private static Logger log = Logger.getLogger(MovieController.class.getName());
 
     @Value("${idRandom}")
     private String idRandom;
 
-    public MovieController(MovieService movieService) {
+    public MovieController(MovieService movieService, MovieListener movieListener) {
         this.movieService = movieService;
+		this.listener = movieListener;
     }
 
     @GetMapping("/{genre}")
@@ -44,6 +48,8 @@ public class MovieController {
     ResponseEntity<Movie> saveMovie(@RequestBody Movie movie) {
 
         log.info("GUARDANDO MOVIE: " + movie);
+        
+        listener.receive(movie);
         return ResponseEntity.ok().body(movieService.save(movie));
     }
 }
