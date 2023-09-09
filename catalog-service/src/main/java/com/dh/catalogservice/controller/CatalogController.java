@@ -37,7 +37,7 @@ public class CatalogController {
 
   private final CatalogService catalogService;
 
-  @PostMapping("/saveSerieCatalog")
+  @PostMapping
   public ResponseEntity<String> saveCatalog(@RequestBody Serie serie) {
     serieListener.receive(serie);
     return ResponseEntity.status(HttpStatus.OK).body("Dato Guardado");
@@ -50,13 +50,12 @@ public class CatalogController {
 
   @PostMapping("/saveMovie")
   public ResponseEntity<Movie> saveMovie(@RequestBody Movie movie) {
-    return iMovieClient.saveMovie(movie);
+    return catalogService.saveMovie(movie);
   }
 
   @PostMapping("/saveSerie")
-  public ResponseEntity<Serie> saveSerie(@RequestBody Serie serie) {
-
-    return iSerieClient.saveSerie(serie);
+  public String saveSerie(@RequestBody Serie serie) {
+    return iSerieClient.create(serie);
   }
 
   ////

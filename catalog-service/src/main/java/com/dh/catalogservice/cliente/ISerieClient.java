@@ -20,6 +20,6 @@ public interface ISerieClient {
 	@GetMapping("/api/v1/series/{genre}")
 	ResponseEntity<List<Serie>> getSerieByGenre(@PathVariable String genre);
 
-	@PostMapping("/api/v1/series/save")
-	ResponseEntity<Serie> saveSerie(@RequestBody Serie serie);
+	@PostMapping("/api/v1/series")
+	String create(@RequestBody Serie serie);
 }
