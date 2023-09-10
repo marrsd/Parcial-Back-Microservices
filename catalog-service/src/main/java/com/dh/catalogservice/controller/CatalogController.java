@@ -17,6 +17,7 @@ import com.dh.catalogservice.cliente.ISerieClient;
 import com.dh.catalogservice.model.Genre;
 import com.dh.catalogservice.model.Movie;
 import com.dh.catalogservice.model.Serie;
+import com.dh.catalogservice.queue.MovieListener;
 import com.dh.catalogservice.queue.SerieListener;
 import com.dh.catalogservice.service.CatalogService;
 
@@ -34,12 +35,18 @@ public class CatalogController {
   private ISerieClient iSerieClient;
 
   private final SerieListener serieListener;
+  private final MovieListener movieListener;
 
   private final CatalogService catalogService;
 
   @PostMapping
-  public ResponseEntity<String> saveCatalog(@RequestBody Serie serie) {
-    serieListener.receive(serie);
+  public ResponseEntity<String> saveCatalog(@RequestBody Object obj) {
+	if(obj instanceof Serie serie) {
+		serieListener.receive(serie);
+	} else if(obj instanceof Movie movie) {
+		movieListener.receive(movie);
+	}
+	
     return ResponseEntity.status(HttpStatus.OK).body("Dato Guardado");
   }
 
@@ -47,18 +54,18 @@ public class CatalogController {
   public ResponseEntity<Genre> getCatalogByGenre(@PathVariable String genre) {
     return ResponseEntity.ok().body(catalogService.getCatalogByGenre(genre));
   }
-
-  @PostMapping("/saveMovie")
-  public ResponseEntity<Movie> saveMovie(@RequestBody Movie movie) {
-    return catalogService.saveMovie(movie);
+  
+  @PostMapping("/movie/save")
+  public ResponseEntity<Void> saveMovie(@RequestBody Movie movie) {
+	  catalogService.saveMovie(movie);
+	  return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
-  @PostMapping("/saveSerie")
-  public String saveSerie(@RequestBody Serie serie) {
-    return iSerieClient.create(serie);
+  @PostMapping("/serie/save")
+  public ResponseEntity<Void> saveSerie(@RequestBody Serie serie) {
+    catalogService.saveSerie(serie);
+    return ResponseEntity.status(HttpStatus.CREATED).build();
   }
-
-  ////
 
   @GetMapping("/movie/{genre}")
   public ResponseEntity<List<Movie>> getCatalogByGenreMovie(@PathVariable String genre) {

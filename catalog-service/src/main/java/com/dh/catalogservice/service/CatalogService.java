@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.dh.catalogservice.cliente.IMovieClient;
+import com.dh.catalogservice.cliente.ISerieClient;
 import com.dh.catalogservice.model.Genre;
 import com.dh.catalogservice.model.Movie;
 import com.dh.catalogservice.model.Serie;
@@ -17,7 +18,9 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CatalogService {
@@ -26,11 +29,14 @@ public class CatalogService {
   private final MoviesRepository moviesRepository;
 
   private final IMovieClient iMovieClient;
+  private final ISerieClient iSerieClient;
 
-  public void saveCatalog(Object obj) {
-    if (obj instanceof Serie) {
-      seriesRepository.save((Serie) obj);
-    }
+  public void saveCatalog(Object obj) {    
+	if(obj instanceof Serie serie) {
+		seriesRepository.save(serie);
+	} else if(obj instanceof Movie movie) {
+		moviesRepository.save(movie);
+	}
   }
 
   public Genre getCatalogByGenre(String genre) {
@@ -44,17 +50,28 @@ public class CatalogService {
 
   @CircuitBreaker(name = "catalog", fallbackMethod = "saveMovieError")
   @Retry(name = "catalog")
-  public ResponseEntity<Movie> saveMovie(Movie movie) {
-    return iMovieClient.saveMovie(movie);
+  public void saveMovie(Movie movie) {
+    iMovieClient.saveMovie(movie);
+  }
+  
+  @CircuitBreaker(name = "serie", fallbackMethod = "saveSerieError")
+  @Retry(name = "serie")
+  public void saveSerie(Serie serie) {
+	log.info("Calling serie service ...");
+    iSerieClient.create(serie);
   }
 
-  private ResponseEntity<Movie> saveMovieError(CallNotPermittedException exception) {
+  private Movie saveMovieError(CallNotPermittedException exception) {
     Movie movie = new Movie();
     movie.setName("Error");
     movie.setUrlStream("Error");
 
     System.out.println("Se ejecuta metodo fallback circuit breaker");
-    return ResponseEntity.ok(movie);
+    return movie;
+  }
+  
+  private String saveSerieError(CallNotPermittedException e) {  
+	  return "No se guarda serie";
   }
 
 }

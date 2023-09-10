@@ -27,10 +27,6 @@ public class SerieController {
 
     private static java.util.logging.Logger log = Logger.getLogger(SerieController.class.getName());
 
-    // public SerieController(SerieService serieService) {
-    // this.serieService = serieService;
-    // }
-
     @GetMapping
     public List<Serie> getAll() {
         return serieService.getAll();
