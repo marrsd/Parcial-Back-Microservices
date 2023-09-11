@@ -17,7 +17,6 @@ import com.dh.catalogservice.cliente.ISerieClient;
 import com.dh.catalogservice.model.Genre;
 import com.dh.catalogservice.model.Movie;
 import com.dh.catalogservice.model.Serie;
-import com.dh.catalogservice.queue.MovieListener;
 import com.dh.catalogservice.queue.SerieListener;
 import com.dh.catalogservice.service.CatalogService;
 
@@ -35,7 +34,7 @@ public class CatalogController {
   private ISerieClient iSerieClient;
 
   private final SerieListener serieListener;
-  private final MovieListener movieListener;
+  //private final MovieListener movieListener;
 
   private final CatalogService catalogService;
 
@@ -44,7 +43,7 @@ public class CatalogController {
 	if(obj instanceof Serie serie) {
 		serieListener.receive(serie);
 	} else if(obj instanceof Movie movie) {
-		movieListener.receive(movie);
+		//movieListener.receive(movie);
 	}
 	
     return ResponseEntity.status(HttpStatus.OK).body("Dato Guardado");
@@ -56,7 +55,7 @@ public class CatalogController {
   }
   
   @PostMapping("/movie/save")
-  public ResponseEntity<Void> saveMovie(@RequestBody Movie movie) {
+  public ResponseEntity<Movie> saveMovie(@RequestBody Movie movie) {
 	  catalogService.saveMovie(movie);
 	  return ResponseEntity.status(HttpStatus.CREATED).build();
   }

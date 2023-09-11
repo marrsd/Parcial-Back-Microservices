@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.dh.catalogservice.model.Movie;
 import com.dh.catalogservice.service.CatalogService;
-
+/*
 @Component
 public class MovieListener {
 	  private final CatalogService catalogService;
@@ -20,3 +20,4 @@ public class MovieListener {
 	    catalogService.saveCatalog(movie);
 	  }
 }
+*/

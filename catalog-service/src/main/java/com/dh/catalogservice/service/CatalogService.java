@@ -16,7 +16,6 @@ import com.dh.catalogservice.repository.SeriesRepository;
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,15 +49,15 @@ public class CatalogService {
 
   @CircuitBreaker(name = "catalog", fallbackMethod = "saveMovieError")
   @Retry(name = "catalog")
-  public void saveMovie(Movie movie) {
-    iMovieClient.saveMovie(movie);
+  public ResponseEntity<Movie> saveMovie(Movie movie) {
+    return iMovieClient.saveMovie(movie);
   }
   
   @CircuitBreaker(name = "serie", fallbackMethod = "saveSerieError")
   @Retry(name = "serie")
-  public void saveSerie(Serie serie) {
+  public String saveSerie(Serie serie) {
 	log.info("Calling serie service ...");
-    iSerieClient.create(serie);
+    return iSerieClient.create(serie);
   }
 
   private Movie saveMovieError(CallNotPermittedException exception) {
