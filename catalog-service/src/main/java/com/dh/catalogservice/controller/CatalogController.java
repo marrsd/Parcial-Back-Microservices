@@ -21,7 +21,9 @@ import com.dh.catalogservice.queue.SerieListener;
 import com.dh.catalogservice.service.CatalogService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/catalog")
 @RequiredArgsConstructor
@@ -42,27 +44,31 @@ public class CatalogController {
   public ResponseEntity<String> saveCatalog(@RequestBody Object obj) {
 	if(obj instanceof Serie serie) {
 		serieListener.receive(serie);
+		log.info("Guardando objeto de tipo Serie, con id: " + serie.getId() + ", nombre: " + serie.getName());
 	} else if(obj instanceof Movie movie) {
 		//movieListener.receive(movie);
+		log.info("Guardando objeto de tipo Movie, con id: " + movie.getId() + ", nombre: " + movie.getName());
 	}
-	
     return ResponseEntity.status(HttpStatus.OK).body("Dato Guardado");
   }
 
   @GetMapping("/{genre}")
   public ResponseEntity<Genre> getCatalogByGenre(@PathVariable String genre) {
+	  log.info("Se obtienen objetos de género: " + genre);
     return ResponseEntity.ok().body(catalogService.getCatalogByGenre(genre));
   }
   
   @PostMapping("/movie/save")
   public ResponseEntity<Movie> saveMovie(@RequestBody Movie movie) {
 	  catalogService.saveMovie(movie);
+	  log.info("Se guarda movie: " + movie.getName());
 	  return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
   @PostMapping("/serie/save")
   public ResponseEntity<Void> saveSerie(@RequestBody Serie serie) {
     catalogService.saveSerie(serie);
+    log.info("Se guarda serie: " + serie.getName());
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
