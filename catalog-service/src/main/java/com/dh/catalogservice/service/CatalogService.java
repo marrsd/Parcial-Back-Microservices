@@ -39,8 +39,8 @@ public class CatalogService {
   }
 
   public Genre getCatalogByGenre(String genre) {
-    List<Serie> series = seriesRepository.findAllByGenre(genre);
-    List<Movie> movies = moviesRepository.findAllByGenre(genre);
+    List<Serie> series = seriesRepository.findAllByGenreIgnoreCase(genre);
+    List<Movie> movies = moviesRepository.findAllByGenreIgnoreCase(genre);
 
     Genre data = new Genre(movies, series);
 

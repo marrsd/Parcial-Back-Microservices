@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.dh.catalogservice.model.Movie;
 
 @Repository
-public interface MoviesRepository extends MongoRepository<Movie, Long> {
-  List<Movie> findAllByGenre(String genre);
+public interface MoviesRepository extends MongoRepository<Movie, String> {
+  List<Movie> findAllByGenreIgnoreCase(String genre);
 }

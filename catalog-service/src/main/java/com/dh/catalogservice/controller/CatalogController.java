@@ -17,6 +17,7 @@ import com.dh.catalogservice.cliente.ISerieClient;
 import com.dh.catalogservice.model.Genre;
 import com.dh.catalogservice.model.Movie;
 import com.dh.catalogservice.model.Serie;
+import com.dh.catalogservice.queue.MovieListener;
 import com.dh.catalogservice.queue.SerieListener;
 import com.dh.catalogservice.service.CatalogService;
 
@@ -36,7 +37,7 @@ public class CatalogController {
   private ISerieClient iSerieClient;
 
   private final SerieListener serieListener;
-  //private final MovieListener movieListener;
+  private final MovieListener movieListener;
 
   private final CatalogService catalogService;
 
@@ -46,8 +47,8 @@ public class CatalogController {
 		serieListener.receive(serie);
 		log.info("Guardando objeto de tipo Serie, con id: " + serie.getId() + ", nombre: " + serie.getName());
 	} else if(obj instanceof Movie movie) {
-		//movieListener.receive(movie);
-		log.info("Guardando objeto de tipo Movie, con id: " + movie.getId() + ", nombre: " + movie.getName());
+		movieListener.receive(movie);
+		log.info("Guardando objeto de tipo Movie, nombre: " + movie.getName());
 	}
     return ResponseEntity.status(HttpStatus.OK).body("Dato Guardado");
   }

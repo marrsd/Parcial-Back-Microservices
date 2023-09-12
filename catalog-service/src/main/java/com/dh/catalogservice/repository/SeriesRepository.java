@@ -9,5 +9,5 @@ import com.dh.catalogservice.model.Serie;
 
 @Repository
 public interface SeriesRepository extends MongoRepository<Serie, String> {
-  List<Serie> findAllByGenre(String genre);
+  List<Serie> findAllByGenreIgnoreCase(String genre);
 }
