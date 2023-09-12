@@ -60,14 +60,14 @@ public class CatalogService {
     return iSerieClient.create(serie);
   }
 
-  private Movie saveMovieError(CallNotPermittedException exception) {
-    Movie movie = new Movie();
-    movie.setName("Error");
-    movie.setUrlStream("Error");
+  private ResponseEntity<Movie> saveMovieError(CallNotPermittedException exception) {
+	    Movie movie = new Movie();
+	    movie.setName("Error");
+	    movie.setUrlStream("Error");
 
-    System.out.println("Se ejecuta metodo fallback circuit breaker");
-    return movie;
-  }
+	    System.out.println("Se ejecuta metodo fallback circuit breaker");
+	    return ResponseEntity.ok(movie);
+	  }
   
   private String saveSerieError(CallNotPermittedException e) {  
 	  return "No se guarda serie";
