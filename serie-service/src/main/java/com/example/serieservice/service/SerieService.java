@@ -15,7 +15,6 @@ public class SerieService {
 
     private final SerieRepository repository;
 
-
     public SerieService(SerieRepository repository) {
         this.repository = repository;
     }
@@ -29,6 +28,10 @@ public class SerieService {
     }
 
     public String create(Serie serie) {
+        Boolean error = false;
+        if (error) {
+            throw new RuntimeException();
+        }
         repository.save(serie);
         return serie.getId();
     }

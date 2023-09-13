@@ -30,12 +30,12 @@ public class CatalogService {
   private final IMovieClient iMovieClient;
   private final ISerieClient iSerieClient;
 
-  public void saveCatalog(Object obj) {    
-	if(obj instanceof Serie serie) {
-		seriesRepository.save(serie);
-	} else if(obj instanceof Movie movie) {
-		moviesRepository.save(movie);
-	}
+  public void saveCatalog(Object obj) {
+    if (obj instanceof Serie serie) {
+      seriesRepository.save(serie);
+    } else if (obj instanceof Movie movie) {
+      moviesRepository.save(movie);
+    }
   }
 
   public Genre getCatalogByGenre(String genre) {
@@ -49,28 +49,32 @@ public class CatalogService {
 
   @CircuitBreaker(name = "catalog", fallbackMethod = "saveMovieError")
   @Retry(name = "catalog")
-  public ResponseEntity<Movie> saveMovie(Movie movie) {
-    return iMovieClient.saveMovie(movie);
+  public String saveMovie(Movie movie) {
+
+    log.info("Calling movie service ...");
+
+    iMovieClient.saveMovie(movie);
+
+    return "Pelicula guardada";
   }
-  
+
   @CircuitBreaker(name = "serie", fallbackMethod = "saveSerieError")
   @Retry(name = "serie")
   public String saveSerie(Serie serie) {
-	log.info("Calling serie service ...");
-    return iSerieClient.create(serie);
+
+    log.info("Calling serie service ...");
+
+    iSerieClient.create(serie);
+
+    return "Serie guardada";
   }
 
-  private ResponseEntity<Movie> saveMovieError(CallNotPermittedException exception) {
-	    Movie movie = new Movie();
-	    movie.setName("Error");
-	    movie.setUrlStream("Error");
+  private String saveMovieError(CallNotPermittedException exception) {
+    return "No se pudo guardar la película";
+  }
 
-	    System.out.println("Se ejecuta metodo fallback circuit breaker");
-	    return ResponseEntity.ok(movie);
-	  }
-  
-  private String saveSerieError(CallNotPermittedException e) {  
-	  return "No se guarda serie";
+  private String saveSerieError(CallNotPermittedException exception) {
+    return "No se guarda serie";
   }
 
 }
