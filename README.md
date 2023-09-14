@@ -6,4 +6,4 @@ Por ejemplo, Al momento de querer guardar una película o una serie, entra una s
 Internamente se realizan dos reintentos, en un perido de 1 segundo, y en caso de que no haya respuesta exitosa, se ejecuta el método alternativo. 
 Con esto evitamos que hayan fallos en cascada y por tanto que la aplicación se caiga y así permitir que otras partes de la app sigan funcionando.
 
-`![Esquema circuit breaker](./screenshots/Esquema_circuit_breaker.jpeg)`
+![Esquema circuit breaker](https://github.com/marrsd/Parcial-Back-Microservices/blob/develop/screenshots/Esquema_circuit_breaker.jpeg)
