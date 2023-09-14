@@ -24,6 +24,10 @@ public class MovieService {
     }
 
     public Movie save(Movie movie) {
+        Boolean error = false;
+        if (error) {
+            throw new RuntimeException();
+        }
         return movieRepository.save(movie);
     }
 }
