@@ -9,3 +9,54 @@ Con esto evitamos que hayan fallos en cascada y por tanto que la aplicación se 
 <p align="center">
   <img src="https://github.com/marrsd/Parcial-Back-Microservices/blob/develop/screenshots/Esquema_circuit_breaker.jpeg" alt="Esquema circuit breaker">
 </p>
+
+Se realizan solicitudes desde postman para observar las rutas y la interacción entre servicios.
+
+Solicitud guardar movie:
+
+<p align="center">
+  <img src="https://github.com/marrsd/Parcial-Back-Microservices/blob/develop/screenshots/Save_movie_Postman.jpeg">
+</p>
+
+La solicitud primero llega a catalog-service, que luego la enruta a movie-service. movie-service interactúa con rabbitmq y mongodb-catalog para completar la operación de guardar una película.
+El servicio que más tiempo toma en procesar la solicitud es catalog-service.
+
+<p align="center">
+  <img src="https://github.com/marrsd/Parcial-Back-Microservices/blob/develop/screenshots/Zipkin_post_catalog_movie_save1.jpeg">
+</p>
+
+<p align="center">
+  <img src="https://github.com/marrsd/Parcial-Back-Microservices/blob/develop/screenshots/Zipkin_post_catalog_movie_save2.jpeg">
+</p>
+
+La solicitud de guardar serie pasa por catalog-service y luego se enruta a serie-service. Este último interactúa con rabbitmq para que el mensaje sea guardado en mongodb-catalog, igualmente también es guardado en la base de datos de serie, mongodb-test para completar la operación de guardar una serie.
+
+<p align="center">
+  <img src="https://github.com/marrsd/Parcial-Back-Microservices/blob/develop/screenshots/Zipkin_post_catalog_serie_save1.jpeg">
+</p>
+
+<p align="center">
+  <img src="https://github.com/marrsd/Parcial-Back-Microservices/blob/develop/screenshots/Zipkin_post_catalog_serie_save2.jpeg">
+</p>
+
+En el caso de la solicitud de listar por género, este pasa por la base de datos de catalog, buscando las series y películas que cumplan la condición, está traza es más corta ya que realiza la búsqueda sobre la misma base de datos de catalog.
+
+<p align="center">
+  <img src="https://github.com/marrsd/Parcial-Back-Microservices/blob/develop/screenshots/Zipkin_get_catalog_byGenre1.jpeg">
+</p>
+
+<p align="center">
+  <img src="https://github.com/marrsd/Parcial-Back-Microservices/blob/develop/screenshots/Zipkin_get_catalog_byGenre%202.jpeg">
+</p>
+
+Evidencias de los mensajes enviados a Rabbitmq.
+
+Mensaje en cola del servicio movie.
+<p align="center">
+  <img src="https://github.com/marrsd/Parcial-Back-Microservices/blob/develop/screenshots/cola_movie.jpeg">
+</p>
+
+Mensaje en cola del servicio serie.
+<p align="center">
+  <img src="https://github.com/marrsd/Parcial-Back-Microservices/blob/develop/screenshots/cola_serie.jpeg">
+</p>
