@@ -10,6 +10,8 @@ Con esto evitamos que hayan fallos en cascada y por tanto que la aplicación se 
   <img src="https://github.com/marrsd/Parcial-Back-Microservices/blob/develop/screenshots/Esquema_circuit_breaker.jpeg" alt="Esquema circuit breaker">
 </p>
 
+## Evidencias
+
 Se realizan solicitudes desde postman para observar las rutas y la interacción entre servicios.
 
 Solicitud guardar movie:
