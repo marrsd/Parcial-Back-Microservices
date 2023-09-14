@@ -7,5 +7,5 @@ Internamente se realizan dos reintentos, en un perido de 1 segundo, y en caso de
 Con esto evitamos que hayan fallos en cascada y por tanto que la aplicación se caiga y así permitir que otras partes de la app sigan funcionando.
 
 <p align="center">
-  <img src="(https://github.com/marrsd/Parcial-Back-Microservices/blob/develop/screenshots/Esquema_circuit_breaker.jpeg)" alt="Esquema circuit breaker">
+  <img src="https://github.com/marrsd/Parcial-Back-Microservices/blob/develop/screenshots/Esquema_circuit_breaker.jpeg" alt="Esquema circuit breaker">
 </p>
